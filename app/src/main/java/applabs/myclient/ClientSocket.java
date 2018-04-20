@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
  * Created by amreshkumar on 19/04/18.
  */
 
-public class ClientSocket extends AsyncTask<Void,Void,Void> {
+public class ClientSocket extends AsyncTask<Void,Void,String> {
 
     String dstAddress;
     int dstPort;
@@ -29,11 +29,24 @@ public class ClientSocket extends AsyncTask<Void,Void,Void> {
         responsetv=responseTextView;
 
     }
+
     @Override
-    protected Void doInBackground(Void... params) {
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(String str) {
+        super.onPostExecute(str);
+        responsetv.setText(str);
+
+    }
+
+    @Override
+    protected String doInBackground(Void... params) {
 
         Socket socket = null;
-        try {
+        try{
             socket = new Socket(dstAddress, dstPort);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(1024);
             byte[] buffer = new byte[1024];
@@ -66,6 +79,7 @@ public class ClientSocket extends AsyncTask<Void,Void,Void> {
                 }
             }
         }
+        return response;
 
 
     }
